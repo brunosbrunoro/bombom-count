@@ -34,7 +34,7 @@ app.post('/slack', function (req, res) {
                 detail: details
             });
             var resposta = {};
-            resposta.text = "Erro Adicionado";
+            resposta.text = "Erro Adicionado para "+reqs[1]+ " por cometer o seguinte erro "+details;
             res.end(JSON.stringify(resposta));
         } else if (reqs[0] == "list") {
             ref.once("value", function (snapshot) {

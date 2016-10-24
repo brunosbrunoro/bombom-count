@@ -40,8 +40,8 @@ app.post('/slack', function (req, res) {
             ref.once("value", function (snapshot) {
                 var resposta = {};
                 resposta.text = "Rank de bombons";
-                    resposta.attachments = [];
-                resposta.response_type = "ephemeral";
+                resposta.attachments = [];
+                resposta.response_type = "in_channel";
                 if (reqs[1] !== undefined) {
                     if (reqs[1] == "completed") {
                         var bombons = snapshot.val().bombons;

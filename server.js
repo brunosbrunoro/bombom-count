@@ -49,8 +49,24 @@ app.post('/slack', function (req, res) {
                         for (i = 0; i < Object.keys(bombons).length; i++) {
                             var obj = bombons[Object.keys(bombons)[i]];
                             var attachment = {};
-                            attachment.author_name = "@" + obj.userAccuser;
-                            attachment.text = "Acusou " + obj.userAccused + " sobre o seguinte erro " + obj.detail + " no seguinte dia " + dateFormat(obj.date, "dd-mm-yyyy h:MM:ss");
+                            attachment.fields = [
+                                {
+                                    "title": "Dedo dudo",
+                                    "value": obj.userAccuser,
+                                    "short": true
+                                },
+                                {
+                                    "title": "Acusado",
+                                    "value": obj.userAccused,
+                                    "short": true
+                                },
+                                {
+                                    "title": "Erro",
+                                    "value": obj.detail,
+                                    "short": false
+                                }
+                            ];
+                            attachment.footer = dateFormat(obj.date, "dd-mm-yyyy hh:MM:ss")+"GMT";
                             attachment.color = "good"
                             resposta.attachments.push(attachment);
                         }
@@ -66,8 +82,24 @@ app.post('/slack', function (req, res) {
                             var obj = bombons[Object.keys(bombons)[i]];
                             var attachment = {};
                             if(obj.userAccused == user) {
-                                attachment.author_name = "@" + obj.userAccuser;
-                                attachment.text = "Acusou " + obj.userAccused + " sobre o seguinte erro " + obj.detail + " no seguinte dia " + dateFormat(obj.date, "dd-mm-yyyy h:MM:ss");
+                                attachment.fields = [
+                                    {
+                                        "title": "Dedo dudo",
+                                        "value": obj.userAccuser,
+                                        "short": true
+                                    },
+                                    {
+                                        "title": "Acusado",
+                                        "value": obj.userAccused,
+                                        "short": true
+                                    },
+                                    {
+                                        "title": "Erro",
+                                        "value": obj.detail,
+                                        "short": false
+                                    }
+                                ];
+                                attachment.footer = dateFormat(obj.date, "dd-mm-yyyy hh:MM:ss")+"GMT";
                                 attachment.color = "good"
                                 resposta.attachments.push(attachment);
                             }

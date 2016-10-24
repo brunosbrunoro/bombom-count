@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start" : "node server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
+    "dateformat": "^1.0.12",
     "express": "~4.13.4",
     "firebase": "^3.5.1"
   }

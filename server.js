@@ -21,6 +21,7 @@ var ref = db.ref();
 
 app.post('/slack', function (req, res) {
     var bombons = ref.child("bombons");
+    res.setHeader('Content-Type', 'application/json');
     var reqs = req.body.text.split(" ");
     if (req.body.token == tokenSlack) {
         if (reqs[0] == "add") {

@@ -35,6 +35,7 @@ app.post('/slack', function (req, res) {
             });
             var resposta = {};
             resposta.text = "Erro Adicionado para "+reqs[1]+ " por cometer o seguinte erro "+details;
+            resposta.response_type = "in_channel";
             res.end(JSON.stringify(resposta));
         } else if (reqs[0] == "list") {
             ref.once("value", function (snapshot) {

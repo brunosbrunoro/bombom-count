@@ -56,7 +56,7 @@ app.post('/slack', function (req, res) {
                                     "short": true
                                 },
                                 {
-                                    "title": "Acusado",
+                                    "title": "Se fodeu ",
                                     "value": obj.userAccused,
                                     "short": true
                                 },
@@ -66,7 +66,7 @@ app.post('/slack', function (req, res) {
                                     "short": false
                                 }
                             ];
-                            attachment.footer = dateFormat(obj.date, "dd-mm-yyyy hh:MM:ss")+"GMT";
+                            attachment.footer = dateFormat(obj.date, "dd-mm-yyyy");
                             attachment.color = "good"
                             resposta.attachments.push(attachment);
                         }

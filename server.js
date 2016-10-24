@@ -79,14 +79,14 @@ app.post('/slack', function (req, res) {
                         var attachment = {};
                         var notAdd = true;
                         for (x = 0; resposta.attachments.length != x; x++) {
-                            if (resposta.attachments[x].author_name == "@" + obj.userAccuser) {
+                            if (resposta.attachments[x].author_name == "@" + obj.userAccused) {
                                 resposta.attachments[x].text++;
                                 notAdd = false;
                             }
                             continue;
                         }
                         if (notAdd) {
-                            attachment.author_name = "@" + obj.userAccuser;
+                            attachment.author_name = "@" + obj.userAccused;
                             attachment.text = 1;
                             attachment.color = "good"
                             resposta.attachments.push(attachment);

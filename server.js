@@ -43,45 +43,15 @@ app.post('/slack', function (req, res) {
                 resposta.text = "Rank de bombons";
                 resposta.attachments = [];
                 resposta.response_type = "in_channel";
-                if (reqs[1] !== undefined) {
-                    if (reqs[1] == "completed") {
-                        var bombons = snapshot.val().bombons;
-                        for (i = 0; i < Object.keys(bombons).length; i++) {
-                            var obj = bombons[Object.keys(bombons)[i]];
-                            var attachment = {};
-                            attachment.fields = [
-                                {
-                                    "title": "Dedo dudo",
-                                    "value": obj.userAccuser,
-                                    "short": true
-                                },
-                                {
-                                    "title": "Se fodeu ",
-                                    "value": obj.userAccused,
-                                    "short": true
-                                },
-                                {
-                                    "title": "Erro",
-                                    "value": obj.detail,
-                                    "short": false
-                                }
-                            ];
-                            attachment.footer = dateFormat(obj.date, "dd-mm-yyyy");
-                            attachment.color = "good"
-                            resposta.attachments.push(attachment);
-                        }
-                    }else if (reqs[1] == "user") {
-                        var user;
-                        if (reqs[2] !== undefined) {
-                            user = reqs[2];
-                        }else{
-                            user = "@"+req.body.user_name;
-                        }
-                        var bombons = snapshot.val().bombons;
-                        for (i = 0; i < Object.keys(bombons).length; i++) {
-                            var obj = bombons[Object.keys(bombons)[i]];
-                            var attachment = {};
-                            if(obj.userAccused == user) {
+                if (snapshot.val() == undefined) {
+                    resposta.text = "Rank de bombons - Não há bombons";
+                } else {
+                    var bombons = snapshot.val().bombons;
+                    if (reqs[1] !== undefined) {
+                        if (reqs[1] == "completed") {
+                            for (i = 0; i < Object.keys(bombons).length; i++) {
+                                var obj = bombons[Object.keys(bombons)[i]];
+                                var attachment = {};
                                 attachment.fields = [
                                     {
                                         "title": "Dedo dudo",
@@ -103,26 +73,59 @@ app.post('/slack', function (req, res) {
                                 attachment.color = "good"
                                 resposta.attachments.push(attachment);
                             }
-                        }
-                    }
-                }else{
-                    var bombons = snapshot.val().bombons;
-                    for (i = 0; i < Object.keys(bombons).length; i++) {
-                        var obj = bombons[Object.keys(bombons)[i]];
-                        var attachment = {};
-                        var notAdd = true;
-                        for (x = 0; resposta.attachments.length != x; x++) {
-                            if (resposta.attachments[x].author_name == obj.userAccused) {
-                                resposta.attachments[x].text++;
-                                notAdd = false;
+                        } else if (reqs[1] == "user") {
+                            var user;
+                            if (reqs[2] !== undefined) {
+                                user = reqs[2];
+                            } else {
+                                user = "@" + req.body.user_name;
                             }
-                            continue;
+                            for (i = 0; i < Object.keys(bombons).length; i++) {
+                                var obj = bombons[Object.keys(bombons)[i]];
+                                var attachment = {};
+                                if (obj.userAccused == user) {
+                                    attachment.fields = [
+                                        {
+                                            "title": "Dedo dudo",
+                                            "value": obj.userAccuser,
+                                            "short": true
+                                        },
+                                        {
+                                            "title": "Se fodeu ",
+                                            "value": obj.userAccused,
+                                            "short": true
+                                        },
+                                        {
+                                            "title": "Erro",
+                                            "value": obj.detail,
+                                            "short": false
+                                        }
+                                    ];
+                                    attachment.footer = dateFormat(obj.date, "dd-mm-yyyy");
+                                    attachment.color = "good"
+                                    resposta.attachments.push(attachment);
+                                }
+                            }
                         }
-                        if (notAdd) {
-                            attachment.author_name = obj.userAccused;
-                            attachment.text = 1;
-                            attachment.color = "good"
-                            resposta.attachments.push(attachment);
+                    } else {
+
+                        for (i = 0; i < Object.keys(bombons).length; i++) {
+                            var obj = bombons[Object.keys(bombons)[i]];
+                            var attachment = {};
+                            var notAdd = true;
+                            for (x = 0; resposta.attachments.length != x; x++) {
+                                if (resposta.attachments[x].author_name == obj.userAccused) {
+                                    resposta.attachments[x].text++;
+                                    notAdd = false;
+                                }
+                                continue;
+                            }
+                            if (notAdd) {
+                                attachment.author_name = obj.userAccused;
+                                attachment.text = 1;
+                                attachment.color = "good"
+                                resposta.attachments.push(attachment);
+                            }
                         }
                     }
                 }
@@ -137,7 +140,7 @@ app.post('/slack', function (req, res) {
     }
 });
 
-var server = app.listen(process.env.PORT, function () {
+var server = app.listen(8081, function () {
     var host = server.address().address
     var port = server.address().port
 
